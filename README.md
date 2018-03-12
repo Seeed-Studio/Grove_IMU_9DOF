@@ -1,6 +1,6 @@
 Grove IMU 9DOF 
 ---------------------------------------------------------
-[![Grove IMU 9DOF](https://raw.githubusercontent.com/SeeedDocument/Grove-IMU_9DOF_v2.0/master/img/Grove-IMU_9DOF_v2.0.JPG)](http://www.seeedstudio.com/depot/Grove-IMU-9DOF-p-1728.html?cPath=25_134)
+[![Grove IMU 9DOF](https://statics3.seeedstudio.com/images/product/Grove%20IMU%209DOF.jpg)](http://www.seeedstudio.com/depot/Grove-IMU-9DOF-p-1728.html?cPath=25_134)
 
 Grove - IMU 9DOF is a high performance 9-axis motion tracking module,which is base on MPU-9150.The MPU-9150 is the world's first integrated 9-axis motion tracking device designed for the low power, low cost, and high performance requirements of consumer electronics equipment including smartphones, tablets and wearable sensors .MPU-9150 features three 16-bit ADC for digitizing the gyroscope outputs and three 16-bit ADCs for digitizing the accelerometer outputs and three 13-bit ADCs for digitizing the magnetometer outputs.
 
