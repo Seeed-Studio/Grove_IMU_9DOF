@@ -1,0 +1,53 @@
+#######################################
+# Syntax Coloring Map For I2Cdev
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+I2Cdev	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+readBit	KEYWORD2
+readBitW	KEYWORD2
+readBits	KEYWORD2
+readBitsW	KEYWORD2
+readByte	KEYWORD2
+readBytes	KEYWORD2
+readWord	KEYWORD2
+readWords	KEYWORD2
+writeBit	KEYWORD2
+writeBitW	KEYWORD2
+writeBits	KEYWORD2
+writeBitsW	KEYWORD2
+writeByte	KEYWORD2
+writeBytes	KEYWORD2
+writeWord	KEYWORD2
+writeWords	KEYWORD2
+
+dmpInitialize	KEYWORD2
+setDMPEnabled	KEYWORD2
+getIntStatus	KEYWORD2
+getFIFOCount	KEYWORD2
+dmpGetFIFOPacketSize	KEYWORD2
+dmpGetQuaternion	KEYWORD2
+dmpGetGravity	KEYWORD2
+dmpGetAccel	KEYWORD2
+dmpGetYawPitchRoll	KEYWORD2
+dmpGetLinearAccel	KEYWORD2
+dmpGetLinearAccelInWorld	KEYWORD2
+
+testConnection	KEYWORD2
+getMotion6	KEYWORD2
+getMotion9	KEYWORD2
+#######################################
+# Instances (KEYWORD2)
+#######################################
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
