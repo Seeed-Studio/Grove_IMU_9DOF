@@ -15,28 +15,28 @@
 //     2012-06-01 - fixed gyro sensitivity to be 2000 deg/sec instead of 250
 //     2012-05-30 - basic DMP initialization working
 
-/* ============================================
-I2Cdev device library code is placed under the MIT license
-Copyright (c) 2012 Jeff Rowberg
+/*  ============================================
+    I2Cdev device library code is placed under the MIT license
+    Copyright (c) 2012 Jeff Rowberg
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+    The above copyright notice and this permission notice shall be included in
+    all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-===============================================
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+    THE SOFTWARE.
+    ===============================================
 */
 
 // Arduino Wire library is required if I2Cdev I2CDEV_ARDUINO_WIRE implementation
@@ -56,23 +56,23 @@ THE SOFTWARE.
 // AD0 high = 0x69
 MPU6050 mpu;
 
-/* =========================================================================
-   NOTE: In addition to connection 3.3v, GND, SDA, and SCL, this sketch
-   depends on the MPU-6050's INT pin being connected to the Arduino's
-   external interrupt #0 pin. On the Arduino Uno and Mega 2560, this is
-   digital I/O pin 2.
- * ========================================================================= */
+/*  =========================================================================
+    NOTE: In addition to connection 3.3v, GND, SDA, and SCL, this sketch
+    depends on the MPU-6050's INT pin being connected to the Arduino's
+    external interrupt #0 pin. On the Arduino Uno and Mega 2560, this is
+    digital I/O pin 2.
+    ========================================================================= */
 
-/* =========================================================================
-   NOTE: Arduino v1.0.1 with the Leonardo board generates a compile error
-   when using Serial.write(buf, len). The Teapot output uses this method.
-   The solution requires a modification to the Arduino USBAPI.h file, which
-   is fortunately simple, but annoying. This will be fixed in the next IDE
-   release. For more info, see these links:
+/*  =========================================================================
+    NOTE: Arduino v1.0.1 with the Leonardo board generates a compile error
+    when using Serial.write(buf, len). The Teapot output uses this method.
+    The solution requires a modification to the Arduino USBAPI.h file, which
+    is fortunately simple, but annoying. This will be fixed in the next IDE
+    release. For more info, see these links:
 
-   http://arduino.cc/forum/index.php/topic,109987.0.html
-   http://code.google.com/p/arduino/issues/detail?id=958
- * ========================================================================= */
+    http://arduino.cc/forum/index.php/topic,109987.0.html
+    http://code.google.com/p/arduino/issues/detail?id=958
+    ========================================================================= */
 
 
 
@@ -134,7 +134,7 @@ float euler[3];         // [psi, theta, phi]    Euler angle container
 float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
 
 // packet structure for InvenSense teapot demo
-uint8_t teapotPacket[14] = { '$', 0x02, 0,0, 0,0, 0,0, 0,0, 0x00, 0x00, '\r', '\n' };
+uint8_t teapotPacket[14] = { '$', 0x02, 0, 0, 0, 0, 0, 0, 0, 0, 0x00, 0x00, '\r', '\n' };
 
 
 
@@ -186,7 +186,7 @@ void setup() {
     // load and configure the DMP
     Serial.println(F("Initializing DMP..."));
     devStatus = mpu.dmpInitialize();
-    
+
     // make sure it worked (returns 0 if so)
     if (devStatus == 0) {
         // turn on the DMP, now that it's ready
@@ -226,7 +226,9 @@ void setup() {
 
 void loop() {
     // if programming failed, don't try to do anything
-    if (!dmpReady) return;
+    if (!dmpReady) {
+        return;
+    }
 
     // wait for MPU interrupt or extra packet(s) available
     while (!mpuInterrupt && fifoCount < packetSize) {
@@ -255,97 +257,99 @@ void loop() {
         mpu.resetFIFO();
         Serial.println(F("FIFO overflow!"));
 
-    // otherwise, check for DMP data ready interrupt (this should happen frequently)
+        // otherwise, check for DMP data ready interrupt (this should happen frequently)
     } else if (mpuIntStatus & 0x02) {
         // wait for correct available data length, should be a VERY short wait
-        while (fifoCount < packetSize) fifoCount = mpu.getFIFOCount();
+        while (fifoCount < packetSize) {
+            fifoCount = mpu.getFIFOCount();
+        }
 
         // read a packet from FIFO
         mpu.getFIFOBytes(fifoBuffer, packetSize);
-        
+
         // track FIFO count here in case there is > 1 packet available
         // (this lets us immediately read more without waiting for an interrupt)
         fifoCount -= packetSize;
 
         #ifdef OUTPUT_READABLE_QUATERNION
-            // display quaternion values in easy matrix form: w x y z
-            mpu.dmpGetQuaternion(&q, fifoBuffer);
-            Serial.print("quat\t");
-            Serial.print(q.w);
-            Serial.print("\t");
-            Serial.print(q.x);
-            Serial.print("\t");
-            Serial.print(q.y);
-            Serial.print("\t");
-            Serial.println(q.z);
+        // display quaternion values in easy matrix form: w x y z
+        mpu.dmpGetQuaternion(&q, fifoBuffer);
+        Serial.print("quat\t");
+        Serial.print(q.w);
+        Serial.print("\t");
+        Serial.print(q.x);
+        Serial.print("\t");
+        Serial.print(q.y);
+        Serial.print("\t");
+        Serial.println(q.z);
         #endif
 
         #ifdef OUTPUT_READABLE_EULER
-            // display Euler angles in degrees
-            mpu.dmpGetQuaternion(&q, fifoBuffer);
-            mpu.dmpGetEuler(euler, &q);
-            Serial.print("euler\t");
-            Serial.print(euler[0] * 180/M_PI);
-            Serial.print("\t");
-            Serial.print(euler[1] * 180/M_PI);
-            Serial.print("\t");
-            Serial.println(euler[2] * 180/M_PI);
+        // display Euler angles in degrees
+        mpu.dmpGetQuaternion(&q, fifoBuffer);
+        mpu.dmpGetEuler(euler, &q);
+        Serial.print("euler\t");
+        Serial.print(euler[0] * 180 / M_PI);
+        Serial.print("\t");
+        Serial.print(euler[1] * 180 / M_PI);
+        Serial.print("\t");
+        Serial.println(euler[2] * 180 / M_PI);
         #endif
 
         #ifdef OUTPUT_READABLE_YAWPITCHROLL
-            // display Euler angles in degrees
-            mpu.dmpGetQuaternion(&q, fifoBuffer);
-            mpu.dmpGetGravity(&gravity, &q);
-            mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
-            Serial.print("ypr\t");
-            Serial.print(ypr[0] * 180/M_PI);
-            Serial.print("\t");
-            Serial.print(ypr[1] * 180/M_PI);
-            Serial.print("\t");
-            Serial.println(ypr[2] * 180/M_PI);
+        // display Euler angles in degrees
+        mpu.dmpGetQuaternion(&q, fifoBuffer);
+        mpu.dmpGetGravity(&gravity, &q);
+        mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
+        Serial.print("ypr\t");
+        Serial.print(ypr[0] * 180 / M_PI);
+        Serial.print("\t");
+        Serial.print(ypr[1] * 180 / M_PI);
+        Serial.print("\t");
+        Serial.println(ypr[2] * 180 / M_PI);
         #endif
 
         #ifdef OUTPUT_READABLE_REALACCEL
-            // display real acceleration, adjusted to remove gravity
-            mpu.dmpGetQuaternion(&q, fifoBuffer);
-            mpu.dmpGetAccel(&aa, fifoBuffer);
-            mpu.dmpGetGravity(&gravity, &q);
-            mpu.dmpGetLinearAccel(&aaReal, &aa, &gravity);
-            Serial.print("areal\t");
-            Serial.print(aaReal.x);
-            Serial.print("\t");
-            Serial.print(aaReal.y);
-            Serial.print("\t");
-            Serial.println(aaReal.z);
+        // display real acceleration, adjusted to remove gravity
+        mpu.dmpGetQuaternion(&q, fifoBuffer);
+        mpu.dmpGetAccel(&aa, fifoBuffer);
+        mpu.dmpGetGravity(&gravity, &q);
+        mpu.dmpGetLinearAccel(&aaReal, &aa, &gravity);
+        Serial.print("areal\t");
+        Serial.print(aaReal.x);
+        Serial.print("\t");
+        Serial.print(aaReal.y);
+        Serial.print("\t");
+        Serial.println(aaReal.z);
         #endif
 
         #ifdef OUTPUT_READABLE_WORLDACCEL
-            // display initial world-frame acceleration, adjusted to remove gravity
-            // and rotated based on known orientation from quaternion
-            mpu.dmpGetQuaternion(&q, fifoBuffer);
-            mpu.dmpGetAccel(&aa, fifoBuffer);
-            mpu.dmpGetGravity(&gravity, &q);
-            mpu.dmpGetLinearAccelInWorld(&aaWorld, &aaReal, &q);
-            Serial.print("aworld\t");
-            Serial.print(aaWorld.x);
-            Serial.print("\t");
-            Serial.print(aaWorld.y);
-            Serial.print("\t");
-            Serial.println(aaWorld.z);
+        // display initial world-frame acceleration, adjusted to remove gravity
+        // and rotated based on known orientation from quaternion
+        mpu.dmpGetQuaternion(&q, fifoBuffer);
+        mpu.dmpGetAccel(&aa, fifoBuffer);
+        mpu.dmpGetGravity(&gravity, &q);
+        mpu.dmpGetLinearAccelInWorld(&aaWorld, &aaReal, &q);
+        Serial.print("aworld\t");
+        Serial.print(aaWorld.x);
+        Serial.print("\t");
+        Serial.print(aaWorld.y);
+        Serial.print("\t");
+        Serial.println(aaWorld.z);
         #endif
-    
+
         #ifdef OUTPUT_TEAPOT
-            // display quaternion values in InvenSense Teapot demo format:
-            teapotPacket[2] = fifoBuffer[0];
-            teapotPacket[3] = fifoBuffer[1];
-            teapotPacket[4] = fifoBuffer[4];
-            teapotPacket[5] = fifoBuffer[5];
-            teapotPacket[6] = fifoBuffer[8];
-            teapotPacket[7] = fifoBuffer[9];
-            teapotPacket[8] = fifoBuffer[12];
-            teapotPacket[9] = fifoBuffer[13];
-            Serial.write(teapotPacket, 14);
-            teapotPacket[11]++; // packetCount, loops at 0xFF on purpose
+        // display quaternion values in InvenSense Teapot demo format:
+        teapotPacket[2] = fifoBuffer[0];
+        teapotPacket[3] = fifoBuffer[1];
+        teapotPacket[4] = fifoBuffer[4];
+        teapotPacket[5] = fifoBuffer[5];
+        teapotPacket[6] = fifoBuffer[8];
+        teapotPacket[7] = fifoBuffer[9];
+        teapotPacket[8] = fifoBuffer[12];
+        teapotPacket[9] = fifoBuffer[13];
+        Serial.write(teapotPacket, 14);
+        teapotPacket[11]++; // packetCount, loops at 0xFF on purpose
         #endif
 
         // blink LED to indicate activity
