@@ -1,4 +1,4 @@
-Grove IMU 9DOF 
+Grove IMU 9DOF   [![Build Status](https://travis-ci.com/Seeed-Studio/Grove_IMU_9DOF.svg?branch=master)](https://travis-ci.com/Seeed-Studio/Grove_IMU_9DOF)
 ---------------------------------------------------------
 [![Grove IMU 9DOF](https://statics3.seeedstudio.com/images/product/Grove%20IMU%209DOF.jpg)](http://www.seeedstudio.com/depot/Grove-IMU-9DOF-p-1728.html?cPath=25_134)
 
