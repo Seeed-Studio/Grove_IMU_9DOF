@@ -61,6 +61,9 @@
 // ^^^ NBWire implementation is still buggy w/some interrupts!
 #define I2CDEV_BUILTIN_FASTWIRE     3 // FastWire object from Francesco Ferrara's project
 // ^^^ FastWire implementation in I2Cdev is INCOMPLETE!
+#ifndef BUFFER_LENGTH
+#define BUFFER_LENGTH 32
+#endif
 
 // -----------------------------------------------------------------------------
 // Arduino-style "Serial.print" debug constant (uncomment to enable)
