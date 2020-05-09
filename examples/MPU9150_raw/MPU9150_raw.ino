@@ -61,6 +61,7 @@ void setup() {
     Serial.begin(38400);
 
     // initialize device
+    while(!Serial);
     Serial.println("Initializing I2C devices...");
     accelgyro.initialize();
 
