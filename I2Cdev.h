@@ -86,6 +86,11 @@
 // 1000ms default read timeout (modify with "I2Cdev::readTimeout = [ms];")
 #define I2CDEV_DEFAULT_READ_TIMEOUT     1000
 
+#ifdef ESP32
+uint8_t min(uint8_t a, uint8_t b);
+#endif
+
+
 class I2Cdev {
   public:
     I2Cdev();

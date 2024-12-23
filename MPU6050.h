@@ -38,7 +38,12 @@
 #define _MPU6050_H_
 
 #include "I2Cdev.h"
+#ifdef ESP32
+#include <pgmspace.h>
+#else
 #include <avr/pgmspace.h>
+#endif
+
 
 //Magnetometer Registers
 #define MPU9150_RA_MAG_ADDRESS		0x0C
